@@ -3,12 +3,14 @@ package com.ryan.condominosys.domain;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +33,11 @@ public class Users {
     private OffsetDateTime createdAt;
     private OffsetDateTime lastAccess;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+        name = "user_permisions",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "permisions_id")
+    )
     private List<Permisions> permisions;
 }

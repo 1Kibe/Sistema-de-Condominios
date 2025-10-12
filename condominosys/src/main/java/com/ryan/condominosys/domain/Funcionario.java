@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +34,7 @@ public class Funcionario {
     private OffsetDateTime dataDemissao;
     private Boolean usuarioSistema;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "condominio_id")
     private Condominio condominio;
 }

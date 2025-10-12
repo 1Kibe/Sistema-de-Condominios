@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -36,11 +37,14 @@ public class Morador {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-
-    @OneToMany(mappedBy = "morador",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "morador", cascade = CascadeType.ALL)
     private List<Residencia> residencia;
 
-    @OneToMany(mappedBy = "morador",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "morador", cascade = CascadeType.ALL)
     private List<Visita> visitas;
+
+    @ManyToOne
+    @JoinColumn(name = "condominio_id")
+    private Condominio condominio;
 
 }

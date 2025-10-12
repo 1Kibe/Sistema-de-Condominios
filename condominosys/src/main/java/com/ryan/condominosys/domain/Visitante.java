@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,7 @@ public class Visitante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   
+
     private String nome;
     private String documento;
     private String telefone;
@@ -31,4 +33,13 @@ public class Visitante {
     private OffsetDateTime dataEntrada;
     private OffsetDateTime dataSaida;
     private Boolean autorizado;
+
+    @ManyToOne
+    @JoinColumn(name = "condominio_id")
+    private Condominio condominio;
+
+    @ManyToOne
+    @JoinColumn(name = "visita_id") // FK para Visita
+    private Visita visita;
+
 }

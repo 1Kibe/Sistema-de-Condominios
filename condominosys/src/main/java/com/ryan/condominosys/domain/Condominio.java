@@ -55,7 +55,7 @@ public class Condominio {
     private List<Sindico> sidicos;
 
     @OneToMany(mappedBy = "condominio", cascade = CascadeType.ALL)
-    private List<Funcionario> Funcionario;
+    private List<Funcionario> funcionarios;
 
     @OneToMany(mappedBy = "condominio", cascade = CascadeType.ALL)
     private List<Reuniao> reunioes;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ryan.condominosys.domain.Andar;
 import com.ryan.condominosys.repository.AndarRepository;
+import com.ryan.condominosys.repository.filter.AndarRepositoryFilter;
 
 @Service
 public class AndarService {
@@ -20,6 +21,10 @@ public class AndarService {
 
     public List<Andar> listarTodos() {
         return repository.findAll();
+    }
+
+    public List<Andar> pg (AndarRepositoryFilter filtro){
+        return repository.pg(filtro);
     }
 
     public Optional<Andar> buscarPorId(Long id) {

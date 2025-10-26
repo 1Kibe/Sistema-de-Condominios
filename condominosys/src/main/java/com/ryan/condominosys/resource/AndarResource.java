@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ryan.condominosys.domain.Andar;
+import com.ryan.condominosys.repository.filter.AndarRepositoryFilter;
 import com.ryan.condominosys.service.AndarService;
+
 
 @RestController
 @RequestMapping(value = "/andar")
@@ -37,6 +39,12 @@ public class AndarResource {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/pg")
+    public List<Andar> pg (AndarRepositoryFilter filtro){
+        return service.pg(filtro);
+    }
+    
 
     @PostMapping
     public ResponseEntity<Andar> salvar(@RequestBody Andar obj) {

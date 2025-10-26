@@ -1,5 +1,6 @@
 package com.ryan.condominosys.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,9 @@ public class Andar {
     private Long id;
 
     private String nome;
-    private Integer andarQuantidadeDeRESIDENCIAS;
+    
+    @Column(name = "andar_quantidade_deresidencias")
+    private Integer andarQuantidadeDeResidencias;
 
     @ManyToOne
     @JoinColumn(name = "bloco_id")

@@ -1,13 +1,15 @@
 package com.ryan.condominosys.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ryan.condominosys.domain.Users;
+import com.ryan.condominosys.exception.enitities.Usuario.UsuarioNaoEncontradoException;
 import com.ryan.condominosys.repository.UsersRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsersService {
@@ -21,9 +23,11 @@ public class UsersService {
     public List<Users> listarTodos() {
         return repository.findAll();
     }
-    
-    public Optional<Users> buscarPorId(Long id) {
-        return repository.findById(id);
+
+    @Transactional
+    public Users buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
     }
 
     public Users salvar(Users users) {

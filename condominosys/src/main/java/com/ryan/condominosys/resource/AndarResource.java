@@ -17,7 +17,6 @@ import com.ryan.condominosys.domain.Andar;
 import com.ryan.condominosys.repository.filter.AndarRepositoryFilter;
 import com.ryan.condominosys.service.AndarService;
 
-
 @RestController
 @RequestMapping(value = "/andar")
 public class AndarResource {
@@ -41,10 +40,9 @@ public class AndarResource {
     }
 
     @GetMapping("/pg")
-    public List<Andar> pg (AndarRepositoryFilter filtro){
+    public List<Andar> pg(AndarRepositoryFilter filtro) {
         return service.pg(filtro);
     }
-    
 
     @PostMapping
     public ResponseEntity<Andar> salvar(@RequestBody Andar obj) {

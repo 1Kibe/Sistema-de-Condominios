@@ -161,7 +161,7 @@ public class ApiHandlerException extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders headers,
             HttpStatusCode status, WebRequest request){
 
-                String path = ex.getMessage();
+                String path = ex.getName();
                 TypeErrorException type = TypeErrorException.PARAMETRO_INVALIDO;
                 HttpStatus _status = type.getStatus();
 

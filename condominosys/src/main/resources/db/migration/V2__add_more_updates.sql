@@ -1,0 +1,16 @@
+create table endereco (id bigint not null auto_increment, bairro varchar(255), cep varchar(255), cidade varchar(255), identificacao_nome varchar(255), numero integer, rua varchar(255), tipo_endereco enum ('Comerercial','Outros','Residencial'), andar_id bigint, bloco_id bigint, condominio_id bigint, residencia_id bigint, primary key (id)) engine=InnoDB;
+alter table reuniao modify column tipo_reuniao enum ('AGENDADA','CANCELADA','CONCLUIDA');
+alter table users modify column email varchar(255);
+alter table users modify column username varchar(255);
+alter table endereco add constraint UK10brpj9gyrve1i21koswr7xmm unique (andar_id);
+alter table endereco add constraint UKfr2uwe48qayorw9e63dqcru8m unique (bloco_id);
+alter table endereco add constraint UKmq8pxy0dk5maepnnkuhavvks3 unique (condominio_id);
+alter table endereco add constraint UK3ev1y6xc9qopxlsc9iq6fniqq unique (residencia_id);
+alter table bloco add constraint FKgwdfm8qlt750esci4hfnxokoa foreign key (endereco_id) references endereco (id);
+alter table condominio add constraint FKmrvh8yxjkt48fs0mdqu1hkd8f foreign key (endereco_id) references endereco (id);
+alter table endereco add constraint FKha1g8nb1k1vc00r3mpoqa3tet foreign key (andar_id) references andar (id);
+alter table endereco add constraint FKqv7p4v10efracnvw77pay9wii foreign key (bloco_id) references bloco (id);
+alter table endereco add constraint FKf1h79oi31jq8ucjj8rnfoyfba foreign key (condominio_id) references condominio (id);
+alter table endereco add constraint FK4s73g9mls2wubffpm6qjnugw1 foreign key (residencia_id) references residencia (id);
+alter table morador add constraint FKg8sb4lawxoc6x2k2bt7aohwbp foreign key (endereco_id) references endereco (id);
+alter table user_permisions add constraint FKc1ux85653oxo5j6mjn9apml3f foreign key (user_id) references users (id);

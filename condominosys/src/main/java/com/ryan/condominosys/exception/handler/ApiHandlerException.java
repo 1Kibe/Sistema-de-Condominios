@@ -1,12 +1,15 @@
 package com.ryan.condominosys.exception.handler;
 
 import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -18,6 +21,7 @@ import com.ryan.condominosys.exception.generic.EntidadeNaoEncontradaException;
 import com.ryan.condominosys.exception.generic.NegocioException;
 
 import org.springframework.lang.Nullable;
+import org.springframework.validation.BindingResult;
 
 @ControllerAdvice
 public class ApiHandlerException extends ResponseEntityExceptionHandler {
@@ -142,6 +146,13 @@ public class ApiHandlerException extends ResponseEntityExceptionHandler {
      * AsyncRequestNotUsableException.class
      */
 
+    /*
+     * Ver possivel erro de Exception
+     * 
+     * Throwable root = ExceptionUtils.getRootCause(ex);
+     * String _detail = String.format("Erro: " + root.getClass().getName());
+     */
+
     // ===========================================================================================
 
     // Verificador de subclasses
@@ -158,23 +169,57 @@ public class ApiHandlerException extends ResponseEntityExceptionHandler {
     }
 
     // Trata rota com id invalido: .../aa
-    private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders headers,
-            HttpStatusCode status, WebRequest request){
+    private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
+            HttpHeaders headers,
+            HttpStatusCode status, WebRequest request) {
 
-                String path = ex.getName();
-                TypeErrorException type = TypeErrorException.PARAMETRO_INVALIDO;
-                HttpStatus _status = type.getStatus();
+        String path = ex.getName();
+        TypeErrorException type = TypeErrorException.PARAMETRO_INVALIDO;
+        HttpStatus _status = type.getStatus();
 
-                @SuppressWarnings("null")
-                String _detail = String.format("O parâmetro de URL '%s' recebeu o valor '%s', "
+        @SuppressWarnings("null")
+        String _detail = String.format("O parâmetro de URL '%s' recebeu o valor '%s', "
                 + "que é de um tipo inválido. Tipo esperado: %s.",
                 path, ex.getValue(),
                 ex.getRequiredType().getSimpleName());
 
-                ModelOutput layoutBodyOutput = createReadyBody(ex, _status, type, _detail)
+        ModelOutput layoutBodyOutput = createReadyBody(ex, _status, type, _detail)
                 .userMessage(MSG_USUARIO_ERRO_GENERICO)
                 .build();
 
-                return handleExceptionInternal(ex, layoutBodyOutput, headers, _status, request);
-            }
+        return handleExceptionInternal(ex, layoutBodyOutput, headers, _status, request);
+    }
+
+    // ===========================================================================================
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+        TypeErrorException type = TypeErrorException.PARAMETRO_INVALIDO;
+        HttpStatus _status = type.getStatus();
+        String _detail = String
+                .format("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.");
+
+        // Obtém o objeto que contém todos os resultados da validação.
+        BindingResult bindResult = ex.getBindingResult();
+
+        List<ModelOutput.PropertiesS> propertiesS = bindResult.getFieldErrors().stream()
+                .map(fieldError -> ModelOutput.PropertiesS.builder()
+                        .name(fieldError.getField())
+                        .userMessage(fieldError.getDefaultMessage())
+                        .build())
+                .collect(Collectors.toList());
+
+        ModelOutput layoutBodyOutput = createReadyBody(ex, _status, type, _detail)
+                .field(propertiesS)
+                .userMessage(_detail)
+                .build();
+
+        return handleExceptionInternal(ex, layoutBodyOutput, headers, _status, request);
+
+    }
+
+    // ===========================================================================================
+
 }

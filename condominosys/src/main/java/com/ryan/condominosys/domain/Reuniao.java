@@ -19,8 +19,9 @@ public class Reuniao {
     private String descricao;
     private OffsetDateTime dataHora;
     private String local;
+
+    @Enumerated(EnumType.STRING)
     private TipoReuniao tipoReuniao;
-    private Boolean status; // Ex.: Ativa, Cancelada, Concluída
 
     @OneToOne
     @JoinColumn(name = "sindico_id")

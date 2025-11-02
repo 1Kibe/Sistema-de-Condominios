@@ -9,8 +9,9 @@ public enum TypeErrorException {
 
     ERRO_INTERNO("/erro_interno", "Erro interno de sistema", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTIDADE_NAO_ENCONTRADA("/entidade_nao_encontrada", "Entidade nao encontrada", HttpStatus.NOT_FOUND),
-    PARAMETRO_INVALIDO("/parametro_invalido","Parametro invalido",HttpStatus.BAD_REQUEST),
     ENTIDADE_EM_USO("/entidade_em_uso", "Entidade em uso", HttpStatus.CONFLICT),
+    PARAMETRO_INVALIDO("/parametro_invalido","Parametro invalido",HttpStatus.BAD_REQUEST),
+    DADOS_INVALIDO("/dados_invalido","Dados invalido",HttpStatus.BAD_REQUEST),
     ERRO_NEGOCIO("/erro_negocio", "Violação de regra de negócio", HttpStatus.BAD_REQUEST);
 
     private String title;

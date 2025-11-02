@@ -32,7 +32,7 @@ public class Funcionario {
 
     private OffsetDateTime dataAdmissao;
     private OffsetDateTime dataDemissao;
-    private Boolean usuarioSistema;
+    private Boolean usuarioSistema = Boolean.FALSE;
 
     @ManyToOne
     @JoinColumn(name = "condominio_id")

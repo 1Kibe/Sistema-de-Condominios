@@ -31,7 +31,7 @@ public class Morador {
     private String telefone;
     private String cpf;
     private Date dataNascimento;
-    private Boolean status;
+    private Boolean status = Boolean.TRUE;
 
     @OneToOne
     @JoinColumn(name = "endereco_id")
